@@ -6,6 +6,8 @@
 * License: https://bootstrapmade.com/license/
 */
 
+document.addEventListener('DOMContentLoaded', function() {
+
 (function() {
   "use strict";
 
@@ -80,6 +82,7 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
+  if (scrollTop) {
   scrollTop.addEventListener('click', (e) => {
     e.preventDefault();
     window.scrollTo({
@@ -87,9 +90,12 @@
       behavior: 'smooth'
     });
   });
+  }
+  if (scrollTop) {
+    window.addEventListener('load', toggleScrollTop);
+    document.addEventListener('scroll', toggleScrollTop);
+  }
 
-  window.addEventListener('load', toggleScrollTop);
-  document.addEventListener('scroll', toggleScrollTop);
 
   /**
    * Animation on scroll function and init
@@ -164,3 +170,5 @@
   });
 
 })();
+
+});
