@@ -8,15 +8,16 @@ class WacapiWeb {
 
     init() {
         if (!this.ctas) return;
+        console.log(this.getCookie('_wacapi_code'));
+        
         if(!this.getCookie('_wacapi_code')) {
             this.setCookie('_wacapi_code');
             this.prepareEvent();
-        }else {
-            this.code = this.getCookie('_wacapi_code');
         }
-        console.log('WacapiWeb initialized');
+
         this.ctas.forEach(cta => {
-            const url = cta.href.replace('{{CODE}}', this.code);
+            const code = this.getCookie('_wacapi_code') || this.code;
+            const url = cta.href.replace('{{CODE}}', code);
             cta.href = url;
         });
     }
@@ -59,7 +60,7 @@ class WacapiWeb {
 
     setCookie(name) {
         const date = new Date();
-        date.setFullYear(date.getMonth() + 1);
+        date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
         document.cookie = `${name}=${this.code}; expires=${date.toUTCString()}; path=/`;
     }
 }
