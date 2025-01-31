@@ -8,8 +8,6 @@ class WacapiWeb {
 
     init() {
         if (!this.ctas) return;
-        console.log(this.getCookie('_wacapi_code'));
-        
         if(!this.getCookie('_wacapi_code')) {
             this.setCookie('_wacapi_code');
             this.prepareEvent();
