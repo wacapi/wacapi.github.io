@@ -23,8 +23,6 @@ class WacapiWeb {
     prepareEvent() {
         const fbp = this.getCookie('_fbp');
         const fbc = this.getCookie('_fbc');
-        alert(fbp); 
-        alert(fbc);
         if (!fbp || !fbc) {
             return;
         }
