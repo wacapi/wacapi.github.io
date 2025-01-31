@@ -10,6 +10,7 @@ class WacapiWeb {
         if (!this.ctas) return;
         if(!this.getCookie('_wacapi_code')) {
             this.setCookie('_wacapi_code');
+            this.prepareEvent();
         }else {
             this.code = this.getCookie('_wacapi_code');
         }
@@ -17,15 +18,10 @@ class WacapiWeb {
         this.ctas.forEach(cta => {
             const url = cta.href.replace('{{CODE}}', this.code);
             cta.href = url;
-            cta.target = '_blank';
-            cta.addEventListener('click', this.ctaClick.bind(this));
         });
     }
 
-    ctaClick(e) {
-        if (!e.target.href) {
-            return;
-        }
+    prepareEvent() {
         const fbp = this.getCookie('_fbp');
         const fbc = this.getCookie('_fbc');
         if (!fbp || !fbc) {
@@ -63,7 +59,7 @@ class WacapiWeb {
 
     setCookie(name) {
         const date = new Date();
-        date.setFullYear(date.getFullYear() + 1);
+        date.setFullYear(date.getMonth() + 1);
         document.cookie = `${name}=${this.code}; expires=${date.toUTCString()}; path=/`;
     }
 }
