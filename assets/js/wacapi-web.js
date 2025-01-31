@@ -44,7 +44,7 @@ class WacapiWeb {
                     if(data.creationTime) {
                         if (targer.href) {
                             const url = targer.href.replace('{{CODE}}', data.creationTime);
-                            window.location.href = url;
+                            window.open(url, "_self");
                         }
                     }
                 });
