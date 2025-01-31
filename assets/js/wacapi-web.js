@@ -35,7 +35,7 @@ class WacapiWeb {
             fbp: fbp,
             fbc: fbc,
             url: window.location.href,
-            code: this.code,
+            code: this.getCookie('_wacapi_code') || this.code,
             timestamp: new Date().toISOString()
         };
         const url = new URL(this.capiurl);
