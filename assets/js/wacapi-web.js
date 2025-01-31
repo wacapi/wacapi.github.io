@@ -8,10 +8,16 @@ class WacapiWeb {
 
     init() {
         if (!this.ctas) return;
+        if(!this.getCookie('_wacapi_code')) {
+            this.setCookie('_wacapi_code');
+        }else {
+            this.code = this.getCookie('_wacapi_code');
+        }
         console.log('WacapiWeb initialized');
         this.ctas.forEach(cta => {
             const url = cta.href.replace('{{CODE}}', this.code);
             cta.href = url;
+            cta.target = '_blank';
             cta.addEventListener('click', this.ctaClick.bind(this));
         });
     }
@@ -53,6 +59,12 @@ class WacapiWeb {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    setCookie(name) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + 1);
+        document.cookie = `${name}=${this.code}; expires=${date.toUTCString()}; path=/`;
     }
 }
 
