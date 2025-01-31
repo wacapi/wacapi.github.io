@@ -2,6 +2,7 @@ class WacapiWeb {
     constructor() {
         this.ctas = document.querySelectorAll('.wacapi-cta');
         this.capiurl = 'https://app.wacapi.com/web-events';
+        this.code = Math.random().toString(36).substring(7);
         this.init();
     }
 
@@ -9,6 +10,8 @@ class WacapiWeb {
         if (!this.ctas) return;
         console.log('WacapiWeb initialized');
         this.ctas.forEach(cta => {
+            const url = cta.href.replace('{{CODE}}', this.code);
+            cta.href = url;
             cta.addEventListener('click', this.ctaClick.bind(this));
         });
     }
@@ -17,37 +20,27 @@ class WacapiWeb {
         if (!e.target.href) {
             return;
         }
-        e.preventDefault();
-        const target = e.target;
         const fbp = this.getCookie('_fbp');
         const fbc = this.getCookie('_fbc');
         if (!fbp || !fbc) {
             return;
         }
         
-        this.sendEvent(fbp, fbc, target);
+        this.sendEvent(fbp, fbc);
     }
 
-    sendEvent(fbp, fbc, targer) {
+    sendEvent(fbp, fbc) {
         const data = {
             fbp: fbp,
             fbc: fbc,
             url: window.location.href,
+            code: this.code,
             timestamp: new Date().toISOString()
         };
         const url = new URL(this.capiurl);
         url.search = new URLSearchParams(data).toString();
         fetch(url).then(response => {
             if (response.ok) {
-                const body = response.json();
-                body.then(data => {
-                    if(data.creationTime) {
-                        if (targer.href) {
-                            const url = targer.href.replace('{{CODE}}', data.creationTime);
-                            window.location.href = url;
-                        }
-                    }
-                });
             } else {
                 console.error('Error sending event to Wacapi', response);
             }
