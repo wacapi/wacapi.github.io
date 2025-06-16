@@ -1,9 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    'wacapi-web': './src/index.js',
+    'wacapi-cart': './src/wacapi-cart.js'
+  },
   output: {
-    filename: 'wacapi-web.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'assets/js'),
   },
 };
